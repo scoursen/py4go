@@ -6,7 +6,7 @@ package api
 // The cost is that we must forward-declare the "py_" functions in the cgo preamble here
 
 import (
-	python "github.com/tliron/py4go"
+	python "github.com/scoursen/py4go"
 )
 
 /*
@@ -15,9 +15,9 @@ import (
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-PyObject *py_api_sayGoodbye(PyObject *self, PyObject *unused);
-PyObject *py_api_concat(PyObject *self, PyObject *args);
-PyObject *py_api_concat_fast(PyObject *self, PyObject **args, Py_ssize_t nargs);
+CPyObject *py_api_sayGoodbye(CPyObject *self, CPyObject *unused);
+CPyObject *py_api_concat(CPyObject *self, CPyObject *args);
+CPyObject *py_api_concat_fast(CPyObject *self, CPyObject **args, Py_ssize_t nargs);
 */
 import "C"
 

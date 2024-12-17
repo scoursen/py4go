@@ -36,7 +36,7 @@ type Exception struct {
 }
 
 func FetchException() *Exception {
-	var type_, value, traceback *C.PyObject
+	var type_, value, traceback *CPyObject
 	C.PyErr_Fetch(&type_, &value, &traceback)
 	if type_ != nil {
 		defer C.PyErr_Restore(type_, value, traceback)

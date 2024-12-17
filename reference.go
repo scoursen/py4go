@@ -10,11 +10,12 @@ import "C"
 // Reference
 //
 
+type CPyObject = C.PyObject
 type Reference struct {
-	Object *C.PyObject
+	Object *CPyObject
 }
 
-func NewReference(pyObject *C.PyObject) *Reference {
+func NewReference(pyObject *CPyObject) *Reference {
 	return &Reference{pyObject}
 }
 
