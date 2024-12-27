@@ -28,13 +28,13 @@ void go_api_sayGoodbye();
 char *go_api_concat(char*, char*);
 
 // PyCFunction signature
-CPyObject *py_api_sayGoodbye(CPyObject *self, CPyObject *unused) {
+PyObject *py_api_sayGoodbye(PyObject *, PyObject *unused) {
 	go_api_sayGoodbye();
 	return Py_None;
 }
 
 // PyCFunction signature
-CPyObject *py_api_concat(CPyObject *self, CPyObject *args) {
+PyObject *py_api_concat(PyObject *, PyObject *args) {
 	char *arg1 = NULL, *arg2 = NULL;
 	PyArg_ParseTuple(args, "ss", &arg1, &arg2);
 	char *r = go_api_concat(arg1, arg2);
@@ -42,7 +42,7 @@ CPyObject *py_api_concat(CPyObject *self, CPyObject *args) {
 }
 
 // _PyCFunctionFast signature
-CPyObject *py_api_concat_fast(CPyObject *self, CPyObject **args, Py_ssize_t nargs) {
+PyObject *py_api_concat_fast(PyObject *, PyObject **args, Py_ssize_t nargs) {
 	char *arg1 = NULL, *arg2 = NULL;
 	_PyArg_ParseStack(args, nargs, "ss", &arg1, &arg2);
 	char *r = go_api_concat(arg1, arg2);

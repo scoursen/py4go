@@ -2,7 +2,7 @@ py4go
 =====
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Go Report Card](https://goreportcard.com/badge/github.com/tliron/py4go)](https://goreportcard.com/report/github.com/tliron/py4go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/scoursen/py4go)](https://goreportcard.com/report/github.com/scoursen/py4go)
 
 Call Python 3 functions and methods from within your Go program while exposing Go functions and
 methods to Python.
@@ -31,7 +31,7 @@ package main
 
 import (
     "fmt"
-    "github.com/tliron/py4go"
+    "github.com/scoursen/py4go"
 )
 
 func main() {

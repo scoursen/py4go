@@ -8,14 +8,25 @@ package python
 
 */
 import "C"
-import "unsafe"
+import (
+	"reflect"
+	"runtime"
+	"unsafe"
 
-func NewCapsule(ptr unsafe.Pointer, name *string, dtor unsafe.Pointer) (*Reference, error) {
+	pointer "github.com/mattn/go-pointer"
+)
+
+var pinner runtime.Pinner
+
+func NewCapsule(v interface{}, name *string, dtor unsafe.Pointer) (*Reference, error) {
 	var nptr *C.char
 	if name != nil {
 		nptr = C.CString(*name)
 		defer C.free(unsafe.Pointer(nptr))
 	}
+	// ptr := pointer.Save(v)
+	pinner.Pin(v)
+	ptr := reflect.ValueOf(v).UnsafePointer()
 	if capsule := C.PyCapsule_New(ptr, nptr, nil); capsule != nil {
 		return NewReference(capsule), nil
 	} else {
@@ -23,24 +34,40 @@ func NewCapsule(ptr unsafe.Pointer, name *string, dtor unsafe.Pointer) (*Referen
 	}
 }
 
-func (ref *Reference) IsCapsule(name *string) bool {
+func (self *Reference) IsCapsule(name *string) bool {
 	var nptr *C.char
 	if name != nil {
 		nptr = C.CString(*name)
 		defer C.free(unsafe.Pointer(nptr))
 	}
-	return C.PyCapsule_IsValid(ref.Object, nptr) != 0
+	return C.PyCapsule_IsValid(self.Object, nptr) != 0
 }
 
-func (ref *Reference) GetPointer(name *string) unsafe.Pointer {
-	if ref.IsCapsule(name) {
+func (self *Reference) GetPointer(name *string) unsafe.Pointer { // interface{} {
+	if self.IsCapsule(name) {
 		var nptr *C.char
 		if name != nil {
 			nptr = C.CString(*name)
 			defer C.free(unsafe.Pointer(nptr))
 		}
-		return C.PyCapsule_GetPointer(ref.Object, nptr)
+		ptr := C.PyCapsule_GetPointer(self.Object, nptr)
+		return ptr
+		// return pointer.Restore(ptr)
 	} else {
 		return nil
 	}
+}
+
+func (self *Reference) Unref(name *string) {
+	if self.IsCapsule(name) {
+		var nptr *C.char
+		if name != nil {
+			nptr = C.CString(*name)
+			defer C.free(unsafe.Pointer(nptr))
+		}
+		ptr := C.PyCapsule_GetPointer(self.Object, nptr)
+		pointer.Unref(ptr)
+	}
+	self.Release()
+	pinner.Unpin()
 }

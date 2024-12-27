@@ -15,9 +15,9 @@ import (
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-CPyObject *py_api_sayGoodbye(CPyObject *self, CPyObject *unused);
-CPyObject *py_api_concat(CPyObject *self, CPyObject *args);
-CPyObject *py_api_concat_fast(CPyObject *self, CPyObject **args, Py_ssize_t nargs);
+PyObject *py_api_sayGoodbye(PyObject *, PyObject *unused);
+PyObject *py_api_concat(PyObject *, PyObject *args);
+PyObject *py_api_concat_fast(PyObject *, PyObject **args, Py_ssize_t nargs);
 */
 import "C"
 

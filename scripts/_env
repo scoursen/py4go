@@ -3,7 +3,7 @@ _HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 
 . "$_HERE/_functions"
 
-MODULE=github.com/tliron/py4go
+MODULE=github.com/scoursen/py4go
 
 ROOT=$(readlink --canonicalize "$_HERE/..")
 
